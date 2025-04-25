@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"log"
 )
@@ -16,8 +17,8 @@ type Node struct {
 	vals     [][]byte
 }
 
-func Encode(node *Node) []byte
-func Decode(page []byte) (*Node, error)
+//func Encode(node *Node) []byte
+//func Decode(page []byte) (*Node, error)
 
 const BTREE_PAGE_SIZE = 4096
 const BTREE_MAX_KEY_SIZE = 1000
@@ -32,6 +33,9 @@ func init() {
 }
 
 func main() {
+	arr := []byte{1, 2, 3, 4, 5, 6, 7, 8}
+	right := binary.LittleEndian.Uint16(arr[:4])
+	fmt.Printf("%d \n %d", arr[:4], right)
 
 	fmt.Print("Hello world")
 }
