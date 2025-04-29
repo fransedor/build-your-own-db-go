@@ -1,9 +1,10 @@
 package main
 
 import (
-	"encoding/binary"
 	"fmt"
 	"log"
+
+	"github.com/fransedor/build-your-own-db-go/bnode"
 )
 
 const (
@@ -33,9 +34,19 @@ func init() {
 }
 
 func main() {
-	arr := []byte{1, 2, 3, 4, 5, 6, 7, 8}
-	right := binary.LittleEndian.Uint16(arr[:4])
-	fmt.Printf("%d \n %d", arr[:4], right)
 
-	fmt.Print("Hello world")
+	node := bnode.BNode(make([]byte, BTREE_PAGE_SIZE))
+	node.SetHeader(BNODE_LEAF, 2)
+	node.AppendKV(0, 0, []byte("k1"), []byte("hi"))
+	// ^ 1st KV
+	node.AppendKV(1, 0, []byte("k3"), []byte("hello"))
+	//                 ^ 2nd KV
+	firstKey := string(node.GetKey(0))
+	secondKey := string(node.GetKey(1))
+
+	firstVal := string(node.GetVal(0))
+	secondVal := string(node.GetVal(1))
+
+	fmt.Printf("First key and val: %v: %v\n", firstKey, firstVal)
+	fmt.Printf("Second key and val: %v: %v\n", secondKey, secondVal)
 }
